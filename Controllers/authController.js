@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import req from "express/lib/request.js";
+import sendEmail from "../utils/mailer.js";
 
 //config dotenv
 dotenv.config();
@@ -47,13 +48,39 @@ export const loginUser = async (req, res) => {
     );
     user.token = token;
     await user.save();
-    res
-      .status(200)
-      .json({
-        message: "User LoggedIn Successfully",
-        token: token,
-        role: user.role,
-      });
+    res.status(200).json({
+      message: "User LoggedIn Successfully",
+      token: token,
+      role: user.role,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+//forgot password
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    //create token
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    //email send part
+    await sendEmail(
+      user.email,
+      "Password Reset Link",
+      `You are receiving this because you have requested the reset password for your account.
+      Please click the following link or paste it into your browser to complete the process
+      http://localhost:5173/reset-password/${user._id}/${token}
+      please ignore you have not requested for reset password.`
+    );
+    res.status(200).json({ message: "Email Sent Successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
