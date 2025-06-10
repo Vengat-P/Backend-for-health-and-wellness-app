@@ -1,21 +1,18 @@
 import mongoose from "mongoose";
 
-const fitnessSchema = new mongoose.Schema({
+const nutritionSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  exercises: {
+  food: {
     type: String,
     required: true,
   },
-  duration: {
+  calories: {
     type: String,
     required: true,
-  },
-  distance: {
-    type: Number,
   },
   createdAt: {
     type: Date,
@@ -23,6 +20,6 @@ const fitnessSchema = new mongoose.Schema({
   },
 });
 
-const Fitness = mongoose.model("Fitness", fitnessSchema);
+const Nutrition = mongoose.model("Nutrition", nutritionSchema);
 
-export default Fitness;
+export default Nutrition;
