@@ -6,6 +6,15 @@ const goalSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  height: {
+    type: Number,
+  },
+  weight: {
+    type: Number,
+  },
+  dob: {
+    type: Date,
+  },
   fitnesses: [
     {
       fitness: {
