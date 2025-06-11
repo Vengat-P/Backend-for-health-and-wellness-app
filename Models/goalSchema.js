@@ -6,37 +6,19 @@ const goalSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  
-  exerciseses: [
-    {
-      exercises: {
-        type: String,
-        required: true,
-      },
-      duration:{
-        type: Number,
-      },
-      distance:{
-        type: Number
-      }
-    },
-  ],
-  nutritions: [
-    {
-      food: {
-        type: String,
-        required: true,
-      },
-      calories:{
-        type: Number,
-        required: true,
-      },
-    },
-  ],
+
+  description: {
+    type: String,
+    required: true,
+  },
+
   status: {
     type: String,
     enum: ["Pending", "Completed"],
     default: "Pending",
+  },
+  deadline: {
+    type: Date,
   },
   createdAt: {
     type: Date,

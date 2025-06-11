@@ -14,9 +14,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  gender:{
+  gender: {
     type: String,
     required: true,
+  },
+  height: {
+    type: Number,
+  },
+  weight: {
+    type: Number,
+  },
+  age: {
+    type: Number,
   },
   role: {
     type: String,

@@ -4,7 +4,8 @@ import cors from "cors";
 import connectDB from "./Database/dbConfig.js";
 import authRouter from "./Routers/authRouter.js";
 import fitnessRouter from "./Routers/fitnessRouter.js";
-import nutritionRouter from "./Routers/nutritionRouter.js"
+import nutritionRouter from "./Routers/nutritionRouter.js";
+import goalRouter from "./Routers/goalRouter.js";
 //config dot env
 dotenv.config();
 //declare express
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter )
 app.use("/api/fitnesses",fitnessRouter )
 app.use("/api/nutritions",nutritionRouter)
+app.use("/api/goal",goalRouter)
 //declare port
 const port = process.env.PORT || 4000;
 

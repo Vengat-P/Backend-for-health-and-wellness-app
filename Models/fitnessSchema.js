@@ -6,15 +6,7 @@ const fitnessSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  height: {
-    type: Number,
-  },
-  weight: {
-    type: Number,
-  },
-  age: {
-    type: Number,
-  },
+
   exercises: {
     type: String,
     required: true,
