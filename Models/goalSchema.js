@@ -6,29 +6,29 @@ const goalSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  height: {
-    type: Number,
-  },
-  weight: {
-    type: Number,
-  },
-  dob: {
-    type: Date,
-  },
-  fitnesses: [
+  
+  exerciseses: [
     {
-      fitness: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Fitness",
+      exercises: {
+        type: String,
         required: true,
       },
+      duration:{
+        type: Number,
+      },
+      distance:{
+        type: Number
+      }
     },
   ],
   nutritions: [
     {
-      nutrition: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Nutrition",
+      food: {
+        type: String,
+        required: true,
+      },
+      calories:{
+        type: Number,
         required: true,
       },
     },

@@ -59,3 +59,23 @@ export const deleteFitnessLog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+//update user  details
+export const updateUserDetail = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { height, weight, age } = req.body;
+    const userDetail = await Fitness.findByIdAndUpdate(
+      userId,
+      { height, weight, age },
+      { new: true }
+    );
+    if (!userDetail) {
+      return res.status(404).json({ message: "Fitness Log Not Found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Fitness Log Updated Successfully", data: userDetail });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
