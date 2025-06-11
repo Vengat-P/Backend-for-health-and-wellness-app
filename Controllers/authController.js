@@ -2,7 +2,6 @@ import User from "../Models/authSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import req from "express/lib/request.js";
 import sendEmail from "../utils/mailer.js";
 
 //config dotenv

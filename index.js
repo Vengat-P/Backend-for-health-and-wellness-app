@@ -2,7 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./Database/dbConfig.js";
-import authRouter from "./Routers/authRouter.js"
+import authRouter from "./Routers/authRouter.js";
+import fitnessRouter from "./Routers/fitnessRouter.js";
 //config dot env
 dotenv.config();
 //declare express
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 //routes
 app.use("/api/auth", authRouter )
+app.use("/api/fitnesses",fitnessRouter )
 //declare port
 const port = process.env.PORT || 4000;
 
