@@ -11,16 +11,13 @@ dotenv.config();
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, gender } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
       password: hashPassword,
       gender,
-      height,
-      weight,
-      age,
     });
     //save the details of new user
     await newUser.save();
