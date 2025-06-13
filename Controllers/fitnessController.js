@@ -1,12 +1,28 @@
+import User from "../Models/authSchema.js";
 import Fitness from "../Models/fitnessSchema.js";
 
 //create fitness log
 export const createFitnessLog = async (req, res) => {
   try {
-    const fitnessLog = await Fitness.create(req.body);
-    res
+    const { exercises, duration, distance } = req.body;
+
+        
+        const userData = await User.findOne({_id: req.user._id})
+        console.log(userData)
+        // Total calories burned = (Exercise duration in minutes) * (MET value * 3.5 * weight in kg) / 200
+        const fitnessLog = new Fitness({
+          user: req.user._id,
+          exercises,
+          duration,
+          distance,
+          calories: (duration* ((5*3.5*userData.weight)/200))
+        });
+        //save the details of new user
+        await fitnessLog.save();
+        res
       .status(200)
-      .json({ message: "fitness Log Created Successfully", fitnessLog });
+      .json({ message: "fitness Log Created Successfully", data: fitnessLog });
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

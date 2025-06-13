@@ -18,6 +18,10 @@ const fitnessSchema = new mongoose.Schema({
   distance: {
     type: Number,
   },
+  calories:{
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

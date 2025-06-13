@@ -21,12 +21,15 @@ const userSchema = new mongoose.Schema({
   },
   height: {
     type: Number,
+    default: 0,
   },
   weight: {
     type: Number,
+    default: 0,
   },
   age: {
     type: Number,
+    default:0,
   },
   role: {
     type: String,
