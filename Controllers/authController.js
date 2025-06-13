@@ -31,9 +31,8 @@ export const registerUser = async (req, res) => {
 };
 //get user details
 export const getUser = async (req, res) => {
-
   try {
-    const user = await User.findOne({_id: req.user._id});
+    const user = await User.findOne({ _id: req.user._id });
     res.status(200).json({
       message: "fitness logs fetched successfully",
       data: user,
@@ -46,10 +45,10 @@ export const getUser = async (req, res) => {
 export const updateUserInfo = async (req, res) => {
   try {
     const userId = req.params.id;
-    const {name,gender, height, weight, age } = req.body;
+    const { name, gender, height, weight, age } = req.body;
     const user = await User.findByIdAndUpdate(
       userId,
-      { name,gender,height, weight, age },
+      { name, gender, height, weight, age },
       { new: true }
     );
     if (!user) {

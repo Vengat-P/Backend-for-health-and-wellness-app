@@ -6,23 +6,21 @@ export const createFitnessLog = async (req, res) => {
   try {
     const { exercises, duration, distance } = req.body;
 
-        
-        const userData = await User.findOne({_id: req.user._id})
-        console.log(userData)
-        // Total calories burned = (Exercise duration in minutes) * (MET value * 3.5 * weight in kg) / 200
-        const fitnessLog = new Fitness({
-          user: req.user._id,
-          exercises,
-          duration,
-          distance,
-          calories: (duration* ((5*3.5*userData.weight)/200))
-        });
-        //save the details of new user
-        await fitnessLog.save();
-        res
+    const userData = await User.findOne({ _id: req.user._id });
+    console.log(userData);
+    // Total calories burned = (Exercise duration in minutes) * (MET value * 3.5 * weight in kg) / 200
+    const fitnessLog = new Fitness({
+      user: req.user._id,
+      exercises,
+      duration,
+      distance,
+      calories: duration * ((5 * 3.5 * userData.weight) / 200),
+    });
+    //save the details of new user
+    await fitnessLog.save();
+    res
       .status(200)
       .json({ message: "fitness Log Created Successfully", data: fitnessLog });
-    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -31,7 +29,7 @@ export const createFitnessLog = async (req, res) => {
 //get logs details
 export const getAllLogs = async (req, res) => {
   try {
-    const fitnessLogs = await Fitness.find();
+    const fitnessLogs = await Fitness.find({user: req.user._id});
     res.status(200).json({
       message: "fitness logs fetched successfully",
       data: fitnessLogs,
