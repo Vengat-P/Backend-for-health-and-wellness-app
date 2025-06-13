@@ -7,7 +7,6 @@ export const createFitnessLog = async (req, res) => {
     const { exercises, duration, distance } = req.body;
 
     const userData = await User.findOne({ _id: req.user._id });
-    console.log(userData);
     // Total calories burned = (Exercise duration in minutes) * (MET value * 3.5 * weight in kg) / 200
     const fitnessLog = new Fitness({
       user: req.user._id,
@@ -29,10 +28,23 @@ export const createFitnessLog = async (req, res) => {
 //get logs details
 export const getAllLogs = async (req, res) => {
   try {
-    const fitnessLogs = await Fitness.find({user: req.user._id});
+    const fitnessLogs = await Fitness.find({ user: req.user._id });
     res.status(200).json({
       message: "fitness logs fetched successfully",
       data: fitnessLogs,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+//get single log details
+export const getLog = async (req, res) => {
+  try {
+    const fitnessLogId = req.params.id;
+    const fitnessLog = await Fitness.findOne({ _id: fitnessLogId });
+    res.status(200).json({
+      message: "fitness logs fetched successfully",
+      data: fitnessLog,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -43,9 +55,15 @@ export const updateFitnessLog = async (req, res) => {
   try {
     const fitnessLogId = req.params.id;
     const { exercises, duration, distance } = req.body;
+    const userData = await User.findOne({ _id: req.user._id });
     const fitnessLog = await Fitness.findByIdAndUpdate(
       fitnessLogId,
-      { exercises, duration, distance },
+      {
+        exercises,
+        duration,
+        distance,
+        calories: duration * ((5 * 3.5 * userData.weight) / 200),
+      },
       { new: true }
     );
     if (!fitnessLog) {
