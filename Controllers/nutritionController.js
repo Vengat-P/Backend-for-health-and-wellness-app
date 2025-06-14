@@ -1,10 +1,23 @@
+import User from "../Models/authSchema.js";
 import Nutrition from "../Models/nutritionSchema.js";
 
 //create nutrition log
 
 export const createNutritionLog = async (req, res) => {
   try {
-    const nutritionLog = await Nutrition.create(req.body);
+    const { food, carbohydrate, protein, fat, vitamin, minerals } = req.body;
+
+    const nutritionLog = new Nutrition({
+      user: req.user._id,
+      food,
+      carbohydrate,
+      protein,
+      fat,
+      vitamin,
+      minerals,
+      calories: carbohydrate * 4 + protein * 4 + fat * 9,
+    });
+    await nutritionLog.save();
     res
       .status(200)
       .json({ message: "Nutrition Log Created Successfully", nutritionLog });
@@ -15,10 +28,23 @@ export const createNutritionLog = async (req, res) => {
 //get all nutrition logs details
 export const getAllLogs = async (req, res) => {
   try {
-    const nutritionLogs = await Nutrition.find();
+    const nutritionLogs = await Nutrition.find({ user: req.user._id });
     res.status(200).json({
       message: "Nutrition Logs Fetched Successfully",
       data: nutritionLogs,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+//get single nutrition log details
+export const getLog = async (req, res) => {
+  try {
+    const nutritionLogId = req.params.id;
+    const nutritionLog = await Nutrition.findOne({ _id: nutritionLogId });
+    res.status(200).json({
+      message: "fitness log fetched successfully",
+      data: nutritionLog,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,10 +54,18 @@ export const getAllLogs = async (req, res) => {
 export const updateNutritionLog = async (req, res) => {
   try {
     const nutritionLogId = req.params.id;
-    const { food, calories } = req.body;
+    const { food, carbohydrate, protein, fat, vitamin, minerals } = req.body;
     const nutritionLog = await Nutrition.findByIdAndUpdate(
       nutritionLogId,
-      { food, calories },
+      {
+        food,
+        carbohydrate,
+        protein,
+        fat,
+        vitamin,
+        minerals,
+        calories: carbohydrate * 4 + protein * 4 + fat * 9,
+      },
       { new: true }
     );
     if (!nutritionLog) {
@@ -53,12 +87,10 @@ export const deleteNutritionLog = async (req, res) => {
     if (!nutritionLog) {
       res.status(404).json({ message: "Nutrition Log Not Found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Nutrition Log Deleted Successfully",
-        data: nutritionLog,
-      });
+    res.status(200).json({
+      message: "Nutrition Log Deleted Successfully",
+      data: nutritionLog,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

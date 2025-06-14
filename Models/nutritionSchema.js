@@ -10,9 +10,23 @@ const nutritionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  carbohydrate:{
+    type: Number,
+  },
+  protein:{
+    type: Number,
+  },
+  fat:{
+    type: Number,
+  },
+  vitamin:{
+    type: String,
+  },
+  minerals:{
+    type:String,
+  },
   calories: {
     type: Number,
-    required: true,
   },
   createdAt: {
     type: Date,
