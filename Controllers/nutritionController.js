@@ -38,7 +38,7 @@ export const getAllLogs = async (req, res) => {
   }
 };
 //get single nutrition log details
-export const getLog = async (req, res) => {
+export const getNutritionLog = async (req, res) => {
   try {
     const nutritionLogId = req.params.id;
     const nutritionLog = await Nutrition.findOne({ _id: nutritionLogId });
