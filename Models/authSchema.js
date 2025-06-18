@@ -31,6 +31,9 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default:0,
   },
+  bmr:{
+    type: Number,
+  },
   role: {
     type: String,
     enum: ["admin", "user"],
