@@ -48,12 +48,15 @@ export const updateUserInfo = async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, gender, height, weight, age } = req.body;
-      // for men BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5
-      // for women BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161 
-       const bmr= (gender.toLowerCase() === "male") ? ((10*weight)+(6.25*height)-(5*age)+5 ):((10*weight)+(6.25*height)-(5*age)-161)
+    // for men BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5
+    // for women BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161
+    const bmr =
+      gender.toLowerCase() === "male"
+        ? 10 * weight + 6.25 * height - 5 * age + 5
+        : 10 * weight + 6.25 * height - 5 * age - 161;
     const user = await User.findByIdAndUpdate(
       userId,
-      { name, gender, height, weight, age,bmr },
+      { name, gender, height, weight, age, bmr },
       { new: true }
     );
     if (!user) {

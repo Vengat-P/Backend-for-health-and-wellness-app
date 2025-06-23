@@ -1,7 +1,5 @@
 import User from "../Models/authSchema.js";
-import Fitness from "../Models/fitnessSchema.js";
 import Goal from "../Models/goalSchema.js";
-import Nutrition from "../Models/nutritionSchema.js";
 
 //create goal
 export const createGoal = async (req, res) => {
@@ -24,30 +22,43 @@ export const createGoal = async (req, res) => {
 // get all goals
 export const getAllGoals = async (req, res) => {
   try {
-    const goals = await Goal.find();
+    const goals = await Goal.find({ user: req.user._id });
     res.status(200).json({
-      message: "fitness logs fetched successfully",
+      message: "All Goals fetched successfully",
       data: goals,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
+//get single goal details
+export const getGoalLog = async (req, res) => {
+  try {
+    const goalId = req.params.id;
+    const goalLog = await Goal.findOne({ _id: goalId });
+    console.log(goalLog)
+    res.status(200).json({
+      message: "Goal  fetched successfully",
+      data: goalLog,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 //update goal
 export const updateGoal = async (req, res) => {
   try {
     const { goalId } = req.params.id;
-    const { description, deadline, status } = req.body;
-    const goal = await Goal.findByIdAndUpdate(
+    const { goal} = req.body;
+    const goalLog = await Goal.findByIdAndUpdate(
       goalId,
-      { description, deadline, status },
+      { goal },
       { new: true }
     );
     if (!goal) {
       return res.status(404).json({ message: "Goal Not Found" });
     }
-    res.status(200).json({ message: "Goal Updated Successfully", data: goal });
+    res.status(200).json({ message: "Goal Updated Successfully", data: goalLog });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

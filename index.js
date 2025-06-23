@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter )
 app.use("/api/fitnesses",fitnessRouter )
 app.use("/api/nutritions",nutritionRouter)
-app.use("/api/goal",goalRouter)
+app.use("/api/goals",goalRouter)
 //declare port
 const port = process.env.PORT || 4000;
 
