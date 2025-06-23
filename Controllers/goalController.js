@@ -6,23 +6,17 @@ import Nutrition from "../Models/nutritionSchema.js";
 //create goal
 export const createGoal = async (req, res) => {
   try {
-    const { goal } = req.body;
-
+    const { goal,from,to } = req.body;
+    
     const userData = await User.findOne({ _id: req.user._id });
-    const fitnessData = await Fitness.find({ user: userData._id  });
-    const nutritionData = await Nutrition.find({ user: userData._id  });
-    console.log(fitnessData)
-    console.log(nutritionData)
-    // Total calories burned = (Exercise duration in minutes) * (MET value * 3.5 * weight in kg) / 200
     const goals = new Goal({
       user: req.user._id,
-      fitness: [fitnessData],
-      nutrition: [nutritionData],
-      goal,
+      goal: goal,
+      from,
+      to,
     });
-    //save the details of new user
     await goals.save();
-    res.status(200).json({ message: "fitness Log Created Successfully", goal });
+    res.status(200).json({ message: "fitness Log Created Successfully", goals });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

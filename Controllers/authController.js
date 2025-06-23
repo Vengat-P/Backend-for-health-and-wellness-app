@@ -33,6 +33,8 @@ export const registerUser = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user._id });
+    user.password = undefined;
+    user.token = undefined;
     res.status(200).json({
       message: "fitness logs fetched successfully",
       data: user,

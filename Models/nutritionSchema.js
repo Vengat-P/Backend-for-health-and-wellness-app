@@ -28,6 +28,10 @@ const nutritionSchema = new mongoose.Schema({
   calories: {
     type: Number,
   },
+  nutritiongoal:{
+    type:String,
+    enum:["muscle gain","weight lose"],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

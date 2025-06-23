@@ -6,20 +6,15 @@ const goalSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  fitness:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Fitness",
-    required: true,
-  },
-  nutrition:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Nutrition",
-    required: true,
-  },
-  goal: {
+  goal:{
     type: String,
-    enum: ["muscle gain", "weight lose"],
     required: true,
+  },
+  from:{
+    type:Date,
+  },
+  to:{
+    type:Date,
   },
   createdAt: {
     type: Date,

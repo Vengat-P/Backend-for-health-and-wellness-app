@@ -5,7 +5,7 @@ import Nutrition from "../Models/nutritionSchema.js";
 
 export const createNutritionLog = async (req, res) => {
   try {
-    const { food, carbohydrate, protein, fat, vitamin, minerals } = req.body;
+    const { food, carbohydrate, protein, fat, vitamin, minerals,nutritiongoal } = req.body;
 
     const nutritionLog = new Nutrition({
       user: req.user._id,
@@ -16,6 +16,7 @@ export const createNutritionLog = async (req, res) => {
       vitamin,
       minerals,
       calories: carbohydrate * 4 + protein * 4 + fat * 9,
+      nutritiongoal,
     });
     await nutritionLog.save();
     res
@@ -54,7 +55,7 @@ export const getNutritionLog = async (req, res) => {
 export const updateNutritionLog = async (req, res) => {
   try {
     const nutritionLogId = req.params.id;
-    const { food, carbohydrate, protein, fat, vitamin, minerals } = req.body;
+    const { food, carbohydrate, protein, fat, vitamin, minerals,nutritiongoal } = req.body;
     const nutritionLog = await Nutrition.findByIdAndUpdate(
       nutritionLogId,
       {
@@ -65,6 +66,7 @@ export const updateNutritionLog = async (req, res) => {
         vitamin,
         minerals,
         calories: carbohydrate * 4 + protein * 4 + fat * 9,
+        nutritiongoal,
       },
       { new: true }
     );
