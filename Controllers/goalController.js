@@ -9,12 +9,12 @@ export const createGoal = async (req, res) => {
     const userData = await User.findOne({ _id: req.user._id });
     const goals = new Goal({
       user: req.user._id,
-      goal: goal,
+      goal,
       from,
       to,
     });
     await goals.save();
-    res.status(200).json({ message: "fitness Log Created Successfully", goals });
+    res.status(200).json({ message: "Goal Created Successfully", goals });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -48,11 +48,11 @@ export const getGoalLog = async (req, res) => {
 //update goal
 export const updateGoal = async (req, res) => {
   try {
-    const { goalId } = req.params.id;
-    const { goal} = req.body;
+    const  goalId  = req.params.id;
+    let { goal,status} = req.body;
     const goalLog = await Goal.findByIdAndUpdate(
       goalId,
-      { goal },
+      { goal,status },
       { new: true }
     );
     if (!goal) {

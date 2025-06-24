@@ -10,6 +10,11 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status:{
+    type: String,
+    enum:["Pending","Completed"],
+    default: "Pending",
+  },
   from:{
     type:Date,
   },
