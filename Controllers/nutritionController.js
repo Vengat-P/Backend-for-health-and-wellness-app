@@ -1,5 +1,7 @@
 import User from "../Models/authSchema.js";
 import Nutrition from "../Models/nutritionSchema.js";
+import cron from "node-cron"
+import sendEmail from "../utils/mailer.js";
 
 //create nutrition log
 
@@ -113,3 +115,61 @@ export const deleteNutritionLog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+//reminder for intake foods
+cron.schedule('0 10 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Nutrition Reminder",
+        `Don't forgot to take Food Intake `
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+cron.schedule('0 14 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Nutrition Reminder",
+        `Don't forgot to take Food Intake `
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+cron.schedule('0 17 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Nutrition Reminder",
+        `Don't forgot to take some nutrients `
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+cron.schedule('0 21 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Nutrition Reminder",
+        `Don't forgot to take Food Intake `
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})

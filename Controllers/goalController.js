@@ -1,5 +1,7 @@
 import User from "../Models/authSchema.js";
 import Goal from "../Models/goalSchema.js";
+import cron from "node-cron"
+import sendEmail from "../utils/mailer.js";
 
 //create goal
 export const createGoal = async (req, res) => {
@@ -36,7 +38,7 @@ export const getGoalLog = async (req, res) => {
   try {
     const goalId = req.params.id;
     const goalLog = await Goal.findOne({ _id: goalId });
-    console.log(goalLog)
+    // console.log(goalLog)
     res.status(200).json({
       message: "Goal  fetched successfully",
       data: goalLog,
@@ -76,3 +78,34 @@ export const deleteGoal = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+cron.schedule('0 6 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Goal Reminder",
+        `Check  today goals`
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+cron.schedule('0 18 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Goal Reminder",
+        `Have you Done today goals`
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+

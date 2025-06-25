@@ -1,5 +1,8 @@
+import { set } from "mongoose";
 import User from "../Models/authSchema.js";
 import Fitness from "../Models/fitnessSchema.js";
+import sendEmail from "../utils/mailer.js";
+import cron from "node-cron";
 
 //create fitness log
 export const createFitnessLog = async (req, res) => {
@@ -91,3 +94,33 @@ export const deleteFitnessLog = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// reminder for fitness activity
+cron.schedule('0 9 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Reminder",
+        "Hey Dont forgot to enter your Fitness activity log Today"
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+cron.schedule('0 19 * * *',async()=>{
+  try {
+    const users = await User.find()
+    for(const user of users){
+      await sendEmail(
+        user.email,
+        "Fitness Reminder",
+        "Hey Dont forgot to enter your Fitness activity log Today"
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
