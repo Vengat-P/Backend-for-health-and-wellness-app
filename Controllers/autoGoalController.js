@@ -4,6 +4,20 @@ import cron from "node-cron";
 import sendEmail from "../utils/mailer.js";
 import AutoGoal from "../Models/autoGoalSchema.js";
 
+
+cron.schedule("0 0 * * *", async () => {
+  try {
+    const users = await User.find();
+    for (const user of users) {
+      const goalData = await Goal.find({ user: user._id });
+      for (const singleGoal of goalData) {
+        await createAutoGoal(singleGoal, user);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 export const createAutoGoal = async (singleGoal, user) => {
   const today = new Date();
   console.log(today);
@@ -18,20 +32,6 @@ export const createAutoGoal = async (singleGoal, user) => {
     console.log("Chcek Goal period");
   }
 };
-cron.schedule("0 0 * * *", async () => {
-  try {
-    const users = await User.find();
-    for (const user of users) {
-      const goalData = await Goal.find({ user: user._id });
-      for (const singleGoal of goalData) {
-        await createAutoGoal(singleGoal, user);
-      }
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 // get all goals
 export const getAllGoals = async (req, res) => {
   try {
